@@ -1,0 +1,153 @@
+---
+title: "Auria_Bubble_Heatmap"
+author: "Wenqing Chen"
+date: "2025-03-18"
+output: html_document
+---
+# Load packages
+```{r setup, include=FALSE}
+
+library(Rmisc)
+library(corrplot)
+library(ggcorrplot)
+library(RColorBrewer)
+library(grDevices)
+library(dplyr)
+
+library(Hmisc)
+
+```
+
+# Load data
+```{r cars}
+
+data = read.csv('/Users/wenqchen/Desktop/Projects/Auria/Data/t-CycIF/Data_AllMarkers_filtered_RCNs.csv')
+
+data_tumor = data %>% filter(celltype == "Tumor")
+
+```
+
+# Correlation plot
+## All tumor cells
+```{r pressure, echo=FALSE}
+
+
+target_markers <- c("GCLC", "NQO1", "TXNRD1", "GLUT1", "H2ax", "pRB", "pSTAT3", "Vimentin", "pS6_235", "H3K27me3", "E.Cadherin")
+filtered_data <- data_tumor %>% select(all_of(target_markers))
+
+rcorr_result <- rcorr(as.matrix(filtered_data), type = "spearman")
+
+cor_matrix <- rcorr_result$r
+p_matrix <- rcorr_result$P 
+
+pdf("/Users/wenqchen/Desktop/Projects/Auria/Plots/Correlation/More_markers/tumor_correlation_plot.pdf", width = 10, height = 8) 
+corrplot(cor_matrix, 
+           method = "circle",  
+           type = "upper",
+           #p.mat = p_matrix,
+           #sig.level = c(0.001, 0.01, 0.05),
+           #pch.cex = 0.9,
+           #insig = 'label_sig',
+           #pch.col = 'grey20'
+           #col = colorRampPalette(c("darkblue", "white", "red4"))(200),
+           #col = COL1('OrRd', 10)
+           col = c("#313772", "#2c4ca0", "#326db6", "#478ecc", "#75b5dc",  "#d2e2ef", "#fee3ce", "#eabaa1", "#dc917b", "#d16d5b", "#c44438", "#b7282e"),
+           tl.col = "black", 
+           tl.cex = 1, 
+           #cl.cex = 1, 
+           #number.cex = 1, 
+           #title = paste("", rcn)
+           )
+dev.off()
+
+
+```
+
+## Subplot by RCNs
+### Antioxidant markers
+```{r pressure, echo=FALSE}
+
+target_markers <- c("GCLC", "NQO1", "TXNRD1", "Ki67_2")
+filtered_data <- data_tumor %>% select(RCNs, all_of(target_markers))
+
+unique_rcns <- unique(filtered_data$RCNs)
+
+for (rcn in unique_rcns) {
+  rcn_data <- filtered_data %>% filter(RCNs == rcn) %>% select(-RCNs)
+  if (nrow(rcn_data) < 3) next
+  
+  pdf(paste0("/Users/wenqchen/Desktop/Projects/Auria/Plots/Correlation/Antioxidant_markers/tumor_correlation_plot_", rcn, ".pdf"), width = 10, height = 8) 
+  rcorr_result <- rcorr(as.matrix(rcn_data), type = "spearman")
+
+  cor_matrix <- rcorr_result$r
+  p_matrix <- rcorr_result$P 
+  
+  corrplot(cor_matrix, 
+           method = "circle",  
+           type = "upper",
+           #p.mat = p_matrix,
+           #sig.level = c(0.001, 0.01, 0.05),
+           #pch.cex = 0.9,
+           #insig = 'label_sig',
+           #pch.col = 'grey20'
+           #col = colorRampPalette(c("blue", "white", "red"))(200),
+           col = c("#313772", "#2c4ca0", "#326db6", "#478ecc", "#75b5dc",  "#d2e2ef", "#fee3ce", "#eabaa1", "#dc917b", "#d16d5b", "#c44438", "#b7282e"),
+           tl.col = "black", 
+           tl.cex = 2, 
+           #cl.cex = 1, 
+           #number.cex = 1, 
+           #title = paste("", rcn)
+           )
+  dev.off()
+}
+
+```
+
+
+### More markers
+```{r pressure, echo=FALSE}
+
+colnames(data)
+
+target_markers <- c("GCLC", "NQO1", "TXNRD1", "GLUT1", "H2ax", "pRB", "pSTAT3", "Vimentin", "pS6_235", "H3K27me3", "E.Cadherin")
+filtered_data <- data_tumor %>% select(RCNs, all_of(target_markers))
+
+unique_rcns <- unique(filtered_data$RCNs)
+
+for (rcn in unique_rcns) {
+  rcn_data <- filtered_data %>% filter(RCNs == rcn) %>% select(-RCNs)
+  if (nrow(rcn_data) < 3) next
+  
+  pdf(paste0("/Users/wenqchen/Desktop/Projects/Auria/Plots/Correlation/More_markers/tumor_correlation_plot_", rcn, ".pdf"), width = 10, height = 8) 
+  rcorr_result <- rcorr(as.matrix(rcn_data), type = "spearman")
+
+  cor_matrix <- rcorr_result$r
+  p_matrix <- rcorr_result$P 
+  
+  corrplot(cor_matrix, 
+           method = "circle",  
+           type = "upper",
+           #p.mat = p_matrix,
+           #sig.level = c(0.001, 0.01, 0.05),
+           #pch.cex = 0.9,
+           #insig = 'label_sig',
+           #pch.col = 'grey20'
+           #col = colorRampPalette(c("blue", "white", "red"))(200),
+           col = c("#313772", "#2c4ca0", "#326db6", "#478ecc", "#75b5dc",  "#d2e2ef", "#fee3ce", "#eabaa1", "#dc917b", "#d16d5b", "#c44438", "#b7282e"),
+           tl.col = "black", 
+           tl.cex = 1, 
+           #cl.cex = 1, 
+           #number.cex = 1, 
+           #title = paste("", rcn)
+           )
+  dev.off()
+}
+
+```
+
+
+
+
+
+
+
