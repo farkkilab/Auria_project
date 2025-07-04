@@ -4,6 +4,10 @@
 # Author(s): Wenqing Chen
 
 # ---- Load libraries ----
+
+#remotes::install_github("REditorSupport/languageserver")
+#remotes::install_github("nx10/httpgd")
+
 library(Seurat)
 library(dplyr)
 library(tidyr)
@@ -27,14 +31,14 @@ scSeurat <- subset(x=scSeurat, idents="Normal Epithelial", invert=TRUE )
 scSeurat_other <- subset(scSeurat, subset = subtype != "HER2+")
 
 table(scSeurat@meta.data$celltype_major)
-table(scSeurat@meta.data$Patient)
+table(scSeurat_other@meta.data$Patient)
 table(scSeurat@meta.data$Patient, scSeurat@meta.data$subtype)
 table(scSeurat@meta.data$Patient, scSeurat@meta.data$celltype_major)
 table(scSeurat@meta.data$Patient, scSeurat@meta.data$celltype_minor)
 table(scSeurat@meta.data$celltype_major, scSeurat@meta.data$normal_cell_call)
 
 ## ---- TNBC data ----
-scSeurat_TNBC <- subset(scSeurat, subset = subtype == "TNBC" )
+scSeurat_TNBC <- subset(scSeurat_other, subset = subtype == "TNBC" )
 table(scSeurat_TNBC@meta.data$Patient, scSeurat_TNBC@meta.data$celltype_major)
 table(scSeurat_TNBC@meta.data$celltype_major, scSeurat_TNBC@meta.data$celltype_minor)
 
@@ -62,6 +66,7 @@ df_oxstress <- df_oxstress %>%
 summary_df <- df_oxstress %>%
   distinct(Patient, celltype_major, subtype, mean_oxstress_patient, mean_oxstress_patient_celltype)
 
+
 ## all patients (10 patients) [per patient plot]
 summary_df_perpatient <- df_oxstress %>% distinct(Patient, subtype, mean_oxstress_patient)
 ## remove some patients (8 patients) [per patient plot]
@@ -69,7 +74,7 @@ summary_df_perpatient <- subset(summary_df_perpatient, !(Patient %in% c("CID4465
 
 ## select cancer cells (10 patients) [per patient plot: only tumor]
 summary_df_tumor <- subset(summary_df, (celltype_major == "Cancer Epithelial"))
-summary_df_tumor <- summary_df_tumor %>% distinct(Patient, subtype, mean_oxstress_patient_celltype)
+summary_df_tumor <- summary_df_tumor %>% distinct(Patient, subtype, mean_oxstress_patient)
 summary_df_tumor <- subset(summary_df_tumor, !(Patient %in% c("CID4465")))
 
 # Only TNBC patients [per celltype per patient plot: only TNBC]
@@ -102,7 +107,7 @@ patient_colors <- c(
   
   # TNBC
   #"CID44041" = "#E5F5E0",
-  #"CID4465" = "#C7E9C0",
+  "CID4465" = "#C7E9C0",
   "CID4495" = "#d4ebd1",
   "CID44971" = "#A1D99B",
   "CID44991" = "#41AB5D",
@@ -168,6 +173,7 @@ summary_df_perpatient %>%
 
 #### ---- only tumor in ER+ and TNBC ----
 # Order the patients label
+# !!!!! Use !!!!!
 subtype_ordered_patients <- summary_df_tumor |>
   dplyr::distinct(Patient, subtype) |>
   dplyr::mutate(subtype = factor(subtype, levels = c("ER+", "TNBC"))) |>
@@ -175,7 +181,7 @@ subtype_ordered_patients <- summary_df_tumor |>
   dplyr::pull(Patient)
 summary_df_tumor$Patient <- factor(summary_df_tumor$Patient, levels = subtype_ordered_patients)
 
-ggplot(summary_df_tumor, aes(x = subtype, y = mean_oxstress_patient_celltype)) +
+ggplot(summary_df_tumor, aes(x = subtype, y = mean_oxstress_patient)) +
   geom_boxplot(aes(fill = subtype), outlier.shape = NA, color = "black") +
   geom_jitter(aes(color = Patient), width = 0.2, size = 2, alpha = 0.8) +
   scale_color_manual(values = patient_colors) +
@@ -560,7 +566,7 @@ for (grp in unique_groups) {
   ggsave(
     filename = paste0("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/GSEA_volcano_plot_",grp,".pdf"),
     plot = p,
-    width = 5.5, height = 7.5, dpi = 300
+    width = 5.5, height = 8.5, dpi = 300
   )
 }
 
@@ -578,7 +584,7 @@ for (grp in unique_groups) {
   top_pathways <- group_data %>%
     filter(significance != "not_sig") %>%
     arrange(desc(`-log10(p.adj)`)) %>%
-    slice_head(n = 16)
+    slice_head(n = 25)
   
   p <- ggplot(group_data, aes(x = NES, y = `-log10(p.adj)`)) +
     geom_point(aes(color = significance), size = 3, alpha = 0.7) +

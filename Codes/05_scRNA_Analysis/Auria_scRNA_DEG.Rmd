@@ -80,16 +80,16 @@ table(rds_data$oxstress_group)
 p2 <- DimPlot(rds_data, 
         group.by = "oxstress_group", 
         label = TRUE, 
-        pt.size = 0.05,         # 点大小，可以调大一点更清晰
-        cols = c("#f27830", "#bccbe8")) +  # 自定义颜色
+        pt.size = 0.05,        
+        cols = c("#f27830", "#bccbe8")) +
   ggtitle("High vs Low Oxidative Stress") +
-  theme_minimal() +                       # 更清爽的主题
+  theme_minimal() +                       
   theme(
-    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),  # 标题样式
-    axis.title = element_blank(),        # 去掉轴标题
-    axis.text = element_blank(),         # 去掉轴刻度
-    axis.ticks = element_blank(),        # 去掉轴刻度线
-    legend.title = element_blank(),      # 去掉图例标题
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5), 
+    axis.title = element_blank(),   
+    axis.text = element_blank(),     
+    axis.ticks = element_blank(),      
+    legend.title = element_blank(),     
     legend.text = element_text(size = 12)
   )
 ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/oxstress_distribution_umap.pdf", plot = p2, width = 6, height = 4, dpi = 300)
@@ -102,9 +102,9 @@ length(features)
 "TXNRD1"
 p3 <- VlnPlot(rds_data, features = c("GCLC", "NQO1", "TXNRD1"),
         group.by = "oxstress_group",
-        pt.size = 0,  # 稍微增加点的大小
+        pt.size = 0,  
         cols = c("steelblue", "firebrick"))
-#+ ggtitle("")
+
 ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/ox_markers_violin.pdf", plot = p3, width = 6, height = 5, dpi = 300)
 
 
@@ -116,7 +116,7 @@ table(rds_data$GCLCVIM)
 
 p4 <- VlnPlot(cancer_rds_data, features = c("GCLC", "NQO1", "TXNRD1"),
         group.by = "oxstress_group",
-        pt.size = 0,  # 稍微增加点的大小
+        pt.size = 0,  
         cols = c("steelblue", "firebrick"))
 ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/ox_markers_violin_tumor.pdf", plot = p4, width = 6, height = 5, dpi = 300)
 
@@ -154,7 +154,7 @@ markers_diff <- FindMarkers(rds_data,
                            ident.1 = "High", 
                            ident.2 = "Low", 
                            group.by = "oxstress_group", 
-                           test.use = "wilcox") # 使用Wilcoxon秩和检验
+                           test.use = "wilcox") 
 
 write.csv(markers_diff, "/Users/wenqchen/Desktop/Projects/Auria/Data/scRNA/DEG_markers_diff.csv")
 
@@ -165,36 +165,30 @@ write.csv(markers_diff, "/Users/wenqchen/Desktop/Projects/Auria/Data/scRNA/DEG_m
 
 markers_diff = read.csv("/Users/wenqchen/Desktop/Projects/Auria/Data/scRNA/DEG_markers_diff.csv")
 
-# 筛选 p 值小于 0.05 且 logFC 大于 0.25 的 DEG
+
 sig_degs <- markers_diff[markers_diff$p_val_adj < 0.01 & abs(markers_diff$avg_log2FC) > 0.5, ]
 sig_genes <- sig_degs$X
 
 
-# 使用 GetAssayData 提取 counts 数据
 counts_data <- GetAssayData(rds_data, slot = "counts")
-# 检查 sig_genes 是否在数据中
+
 sig_genes_in_data <- sig_genes[sig_genes %in% rownames(counts_data)]
-# 提取显著基因的表达数据
 expr_data <- counts_data[sig_genes, ]
 
 
-# 截取前100个基因并转为矩阵
 expr_data_sub <- as.matrix(expr_data[1:100, ])
 
-# 按 oxstress_group 排列列顺序
 col_order <- order(rds_data$oxstress_group) 
 expr_data_ordered <- expr_data_sub[, col_order]
 
-
-# 按照新的顺序匹配 annotation
 annotation_ordered <- data.frame(oxstress_group = rds_data$oxstress_group[col_order])
 rownames(annotation_ordered) <- colnames(expr_data_ordered)
-# 自定义颜色：high = orange, low = blue
+
 ann_colors <- list(
   oxstress_group = c("High" = "orange", "Low" = "blue")
 )
 
-# 绘制热图
+
 pdf("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/DEG_oxsress_heatmap.pdf", width = 10, height = 12)
 pheatmap(expr_data_ordered, 
          scale = "row",  
@@ -213,21 +207,17 @@ dev.off()
 
 
 expr_data_sub
-# 按 oxstress_group 排列列顺序
 patient_ids <- rds_data@meta.data$Patient
 
 col_order_patient <- order(patient_ids) 
 expr_data_ordered_patient <- expr_data_sub[, col_order_patient]
-# 按照新的顺序匹配 annotation
 patient_annotation_ordered <- data.frame(Patient = patient_ids[col_order_patient])
 rownames(patient_annotation_ordered) <- colnames(expr_data_ordered_patient)
-# 自定义颜色：
 ann_colors_patient <- list(
   Patient = c("CID3963" = "#f57c6e", "CID4465" = "#f2b56f", "CID4495" = "#fae69e", "CID44971" = "#84c3b7",
               "CID44991" = "#88d8db", "CID4513" = "#71b7ed", "CID4515" = "#b8aeeb", "CID4523" = "#f2a7da")
 )
 
-# 绘制热图
 pdf("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/DEG_oxsress_patient_heatmap.pdf", width = 10, height = 12)
 pheatmap(expr_data_ordered_patient, 
          scale = "row",  
@@ -252,14 +242,13 @@ dev.off()
 
 ```{r}
 
-# 合并两个 annotation 数据框
+
 annotation_combined <- data.frame(
   oxstress_group = rds_data$oxstress_group[col_order],
   Patient = patient_ids[col_order]
 )
 rownames(annotation_combined) <- colnames(expr_data_ordered)
 
-# 合并 annotation colors
 ann_colors_combined <- list(
   oxstress_group = c("High" = "orange", "Low" = "#1E803D"),
   Patient = c(
@@ -268,7 +257,6 @@ ann_colors_combined <- list(
   )
 )
 
-# 绘制热图
 pdf("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/DEG_oxsress_group_patient_heatmap.pdf", width = 10, height = 12, useDingbats=FALSE)
 pheatmap(expr_data_ordered, 
          scale = "row",  
@@ -296,14 +284,12 @@ summary(as.vector(expr_data_ordered))
 
 ```{r}
 
-# 取表达矩阵和分组标签
+
 expr <- expr_data_sub  # genes x cells
 group <- rds_data$oxstress_group
 
-# 按分组求每个基因的平均表达
 expr_avg <- t(apply(expr, 1, function(x) tapply(x, group, mean)))  # genes x groups
 
-# 设定注释和颜色（现在只有两个组）
 annotation_col <- data.frame(oxstress_group = colnames(expr_avg))
 rownames(annotation_col) <- colnames(expr_avg)
 
@@ -313,8 +299,6 @@ ann_colors <- list(
 
 summary(expr_avg)
 
-
-# 绘制热图
 pdf("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Average_DEG_oxsress_heatmap.pdf", width = 6, height = 10)
 pheatmap(expr_avg, 
          cluster_rows = TRUE,  
@@ -342,14 +326,13 @@ dev.off()
 
 ```{r}
 
-# 取表达矩阵和分组标签
-expr <- expr_data_sub  # genes x cells
+
+expr <- expr_data_sub 
 group <- rds_data$Patient
 
-# 按分组求每个基因的平均表达
-expr_avg <- t(apply(expr, 1, function(x) tapply(x, group, mean)))  # genes x groups
 
-# 设定注释和颜色（现在只有两个组）
+expr_avg <- t(apply(expr, 1, function(x) tapply(x, group, mean))) 
+
 annotation_col <- data.frame(Patient = colnames(expr_avg))
 rownames(annotation_col) <- colnames(expr_avg)
 
@@ -360,8 +343,6 @@ ann_colors_patient <- list(
 
 summary(expr_avg)
 
-
-# 绘制热图
 pdf("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Average_DEG_oxsress_patient_heatmap.pdf", width = 6, height = 10)
 pheatmap(expr_avg, 
          cluster_rows = TRUE,  
@@ -393,27 +374,23 @@ dev.off()
 ```{r}
 
 
-# === 1. 读取 Seurat 对象 ===
 GSEA_data <- rds_data
 GSEA_data@meta.data
 
 table(GSEA_data$celltype_major)
 
-# === 2. 设定分组列为 factor（例如：seu$GCLC_VIM）===
 Idents(GSEA_data) <- GSEA_data$oxstress_group
 table(GSEA_data$oxstress_group)
 
-# === 3. 找出 GCLC+VIM+ vs GCLC−VIM+ 差异表达基因 ===
 deg_1 <- FindMarkers(
   GSEA_data,
   ident.1 = "High",
   ident.2 = "Low",
-  logfc.threshold = 0,  # 不设阈值，为 GSEA 排序用
+  logfc.threshold = 0, 
   test.use = "wilcox",
   only.pos = FALSE
 )
 
-# === 4. 创建 .rnk 文件（gene, logFC 排序）===
 rnk_1 <- deg_1 %>%
   rownames_to_column(var = "gene") %>%
   select(gene, avg_log2FC) %>%
@@ -430,7 +407,6 @@ write_tsv(rnk_1, "/Users/wenqchen/Desktop/Projects/Auria/Data/scRNA/Oxstress_gro
 ```{r}
 
 
-# === 1. 读取 Seurat 对象 ===
 GSEA_data <- rds_data
 GSEA_data@meta.data
 
@@ -439,26 +415,25 @@ table(GSEA_data$celltype_major)
 cancer_GSEA_data <- subset(GSEA_data, celltype_major == "Cancer Epithelial")
 cancer_GSEA_data@meta.data
 
-# === 2. 设定分组列为 factor（例如：seu$GCLC_VIM）===
+
 Idents(cancer_GSEA_data) <- cancer_GSEA_data$GCLCVIM
 table(cancer_GSEA_data$GCLCVIM)
 
-# Tumor cells: GCLC+VIM+ VS GCLC-VIM+
+# Tumor cells: GCLC+VIM+ VS GCLC-VIM-
 cancer_GSEA_data_sub <- subset(cancer_GSEA_data, GCLCVIM == "++" | GCLCVIM == "--")
 cancer_GSEA_data_sub@meta.data
 table(cancer_GSEA_data_sub$GCLCVIM)
 
-# === 3. 找出 GCLC+VIM+ vs GCLC−VIM+ 差异表达基因 ===
+
 deg_1 <- FindMarkers(
   cancer_GSEA_data_sub,
   ident.1 = "++",
   ident.2 = "--",
-  logfc.threshold = 0,  # 不设阈值，为 GSEA 排序用
+  logfc.threshold = 0, 
   test.use = "wilcox",
   only.pos = FALSE
 )
 
-# === 4. 创建 .rnk 文件（gene, logFC 排序）===
 rnk_1 <- deg_1 %>%
   rownames_to_column(var = "gene") %>%
   select(gene, avg_log2FC) %>%
@@ -474,17 +449,15 @@ cancer_GSEA_data_sub_2 <- subset(cancer_GSEA_data, GCLCVIM == "++" | GCLCVIM == 
 cancer_GSEA_data_sub_2@meta.data
 table(cancer_GSEA_data_sub_2$GCLCVIM)
 
-# === 3. 找出 GCLC+VIM+ vs GCLC−VIM+ 差异表达基因 ===
 deg_2 <- FindMarkers(
   cancer_GSEA_data_sub_2,
   ident.1 = "++",
   ident.2 = "+-",
-  logfc.threshold = 0,  # 不设阈值，为 GSEA 排序用
+  logfc.threshold = 0,
   test.use = "wilcox",
   only.pos = FALSE
 )
 
-# === 4. 创建 .rnk 文件（gene, logFC 排序）===
 rnk_2 <- deg_2 %>%
   rownames_to_column(var = "gene") %>%
   select(gene, avg_log2FC) %>%

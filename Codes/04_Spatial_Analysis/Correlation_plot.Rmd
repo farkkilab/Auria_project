@@ -7,14 +7,16 @@ output: html_document
 # Load packages
 ```{r setup, include=FALSE}
 
+#install.packages("Hmisc")
+#install.packages("Rmisc")
+library(Hmisc)
 library(Rmisc)
+
 library(corrplot)
 library(ggcorrplot)
 library(RColorBrewer)
 library(grDevices)
 library(dplyr)
-
-library(Hmisc)
 
 ```
 
