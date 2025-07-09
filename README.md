@@ -10,7 +10,20 @@
 | `Codes/t-CycIF/Data_rename.ipynb`            | Re-name the celltypes |
 | `Codes/t-CycIF/Scimap_Spatial-Count.ipynb`   | Get RCNs using Scimap |
          
+### 🔹 scRNA-seq
+| Script                                       | Description           |
+|----------------------------------------------|-----------------------|
+| `Codes/scRNA-seq/01_scRNAseq_preparation.R`            | scRNAseq data exploration and preparation |
+| `Codes/scRNA-seq/02_Antiox_signature.R`   | Compute Antiox signature at single cell level |
+| `Codes/scRNA-seq/03_GCLCVIM_signature.R`   | Compute GCLCVIM signature at single cell level |
 
+
+### 🔹 spatial_transcriptomics
+| Script                                       | Description           |
+|----------------------------------------------|-----------------------|
+| `Codes/spatial_transcriptomics/Data_rename.ipynb`            | Re-name the celltypes |
+| `Codes/spatial_transcriptomics/Scimap_Spatial-Count.ipynb`   | Get RCNs using Scimap |
+                  
 ## 📊 Figure-to-Code Mapping
 
 ### Main Figures
