@@ -47,7 +47,7 @@ ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Oxstress/GCLC_VIM_TNB
 
 
 # ---- Figure 1D ----
-
+# one UMAP to show 5 clusters
 TNBC <- readRDS("/Users/wenqchen/Desktop/Projects/Auria/Data/scRNA/TNBC180225.rds")
 
 TNBC <- subset(x=TNBC, subset = Patient != "CID4465")
@@ -100,7 +100,20 @@ umap_data$Oxstress_Signature <- integrated@meta.data$oxstress
 
 
 # UMAP Plot, faceted by Patient
-# GCLCVIM_Signature
+# ---- Figure 1D ----
+# 7 UMAP (different patients) to show Oxstress_Signature
+ggplot(umap_data, aes(x = umap_1, y = umap_2, color = Oxstress_Signature)) +
+  geom_point(size = 0.5, alpha = 0.7) +  # Adjust point size and transparency
+  scale_color_gradientn(colors = jdb_palette("solar_extra")) +  # Color scale
+  theme_minimal() +
+  ggtitle("oxstress Signature Expression by Patient") +
+  facet_wrap(~Patient, scales = "free")  # Facet per patient
+
+ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Oxstress/oxstress_TNBC_umap_patients.pdf",
+       width =10, height = 7, dpi = 300)
+
+# ---- Figure 3I ----
+# 7 UMAP (different patients) to show GCLCVIM_Signature
 ggplot(umap_data, aes(x = umap_1, y = umap_2, color = GCLCVIM_Signature)) +
   geom_point(size = 0.5, alpha = 0.7) +  # Adjust point size and transparency
   scale_color_gradientn(colors = jdb_palette("solar_extra")) +  # Color scale
@@ -112,14 +125,4 @@ ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Oxstress/GCLC_VIM_TNB
        width =10, height = 7, dpi = 300)
 
 
-# Oxstress_Signature
-ggplot(umap_data, aes(x = umap_1, y = umap_2, color = Oxstress_Signature)) +
-  geom_point(size = 0.5, alpha = 0.7) +  # Adjust point size and transparency
-  scale_color_gradientn(colors = jdb_palette("solar_extra")) +  # Color scale
-  theme_minimal() +
-  ggtitle("oxstress Signature Expression by Patient") +
-  facet_wrap(~Patient, scales = "free")  # Facet per patient
-
-ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Oxstress/oxstress_TNBC_umap_patients.pdf",
-       width =10, height = 7, dpi = 300)
 

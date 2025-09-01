@@ -273,6 +273,7 @@ ggplot(oxstress_GV_df, aes(x = oxstress, y = signature_GCLCVIM)) +
 
 ### ---- tumor cells ----
 
+
 oxstress_GV_tumor_df <- subset(oxstress_GV_df, subset = celltype_major == "Cancer Epithelial")
 # spearman correlation
 cor.test(oxstress_GV_tumor_df$oxstress, oxstress_GV_tumor_df$signature_GCLCVIMTUMOR, method = "spearman")
@@ -293,9 +294,14 @@ ggplot(oxstress_GV_tumor_df, aes(x = oxstress, y = signature_GCLCVIMTUMOR)) +
 ggplot(oxstress_GV_tumor_df, aes(x = oxstress, y = signature_GCLCVIMTUMOR)) +
   geom_hex(bins = 60) +
   scale_fill_viridis_c() +
-  labs(title = "Joint expression: OxStress vs GCLCVIM",
-       x = "OxStress score", y = "GCLCVIM score") +
-  theme_minimal()
+  labs(
+    title = "All tumor cells of TNBC: OxStress vs GCLCVIM",
+    x = "OxStress score", y = "GCLCVIM score"
+  ) +
+  theme_minimal() +
+  annotate("text", x = Inf, y = Inf, label = "p-value < 2.2e-16", hjust = 1.1, vjust = 1.2, size = 5)
+ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Oxstress/GCLCVIM_Oxstress_TNBC_tumor.pdf",
+       width =10, height = 7, dpi = 300)
 
 
 ### ---- CID4513 ----
@@ -303,14 +309,21 @@ ggplot(oxstress_GV_tumor_df, aes(x = oxstress, y = signature_GCLCVIMTUMOR)) +
 oxstress_GV_tumor_df <- subset(oxstress_GV_df, subset = celltype_major == "Cancer Epithelial")
 oxstress_GV_tumor_CID4513 <- subset(oxstress_GV_tumor_df, subset = Patient == "CID4513")
 
+# select top 25% as high
+# chi-squared test
+oxstress_GV_tumor_CID4513$oxstress_high <- oxstress_GV_tumor_CID4513$oxstress > quantile(oxstress_GV_tumor_df$oxstress, 0.75)
+oxstress_GV_tumor_CID4513$GCLCVIM_high <- oxstress_GV_tumor_CID4513$signature_GCLCVIMTUMOR > quantile(oxstress_GV_tumor_df$signature_GCLCVIMTUMOR, 0.75)
+
+table(oxstress_GV_tumor_CID4513$oxstress_high)
+table(oxstress_GV_tumor_CID4513$GCLCVIM_high)
+ox_group <- factor(ifelse(oxstress_GV_tumor_CID4513$oxstress_high, "High", "Low"), levels = c("Low", "High"))
+gclc_group <- factor(ifelse(oxstress_GV_tumor_CID4513$GCLCVIM_high, "High", "Low"), levels = c("Low", "High"))
+table_2x2_named <- table(OxStress = ox_group, GCLCVIM = gclc_group)
+chisq_result <- chisq.test(table_2x2_named)
+mosaicplot(table_2x2_named, main="OxStress vs GCLCVIM (CID4513)", shade=TRUE)
+
 # spearman correlation
 cor.test(oxstress_GV_tumor_CID4513$oxstress, oxstress_GV_tumor_CID4513$signature_GCLCVIMTUMOR, method = "spearman")
-
-# select top 25% as high
-oxstress_GV_tumor_CID4513$oxstress_high <- oxstress_GV_tumor_CID4513$oxstress > quantile(oxstress_GV_tumor_CID4513$oxstress, 0.75)
-oxstress_GV_tumor_CID4513$GCLCVIM_high <- oxstress_GV_tumor_CID4513$signature_GCLCVIMTUMOR > quantile(oxstress_GV_tumor_CID4513$signature_GCLCVIMTUMOR, 0.75)
-table(oxstress_GV_tumor_CID4513$oxstress_high, oxstress_GV_tumor_CID4513$GCLCVIM_high)
-
 # hexagonal binning plot
 ggplot(oxstress_GV_tumor_CID4513, aes(x = oxstress, y = signature_GCLCVIMTUMOR)) +
   geom_hex(bins = 60) +
@@ -324,14 +337,19 @@ ggplot(oxstress_GV_tumor_CID4513, aes(x = oxstress, y = signature_GCLCVIMTUMOR))
 oxstress_GV_tumor_df <- subset(oxstress_GV_df, subset = celltype_major == "Cancer Epithelial")
 oxstress_GV_tumor_CID4515 <- subset(oxstress_GV_tumor_df, subset = Patient == "CID4515")
 
+# select top 25% as high
+# chi-squared test
+oxstress_GV_tumor_CID4515$oxstress_high <- oxstress_GV_tumor_CID4515$oxstress > quantile(oxstress_GV_tumor_df$oxstress, 0.75)
+oxstress_GV_tumor_CID4515$GCLCVIM_high <- oxstress_GV_tumor_CID4515$signature_GCLCVIMTUMOR > quantile(oxstress_GV_tumor_df$signature_GCLCVIMTUMOR, 0.75)
+
+ox_group <- factor(ifelse(oxstress_GV_tumor_CID4515$oxstress_high, "High", "Low"), levels = c("Low", "High"))
+gclc_group <- factor(ifelse(oxstress_GV_tumor_CID4515$GCLCVIM_high, "High", "Low"), levels = c("Low", "High"))
+table_2x2_named <- table(OxStress = ox_group, GCLCVIM = gclc_group)
+chisq_result <- chisq.test(table_2x2_named)
+mosaicplot(table_2x2_named, main="OxStress vs GCLCVIM (CID4515)", shade=TRUE)
+
 # spearman correlation
 cor.test(oxstress_GV_tumor_CID4515$oxstress, oxstress_GV_tumor_CID4515$signature_GCLCVIMTUMOR, method = "spearman")
-
-# select top 25% as high
-oxstress_GV_tumor_CID4515$oxstress_high <- oxstress_GV_tumor_CID4515$oxstress > quantile(oxstress_GV_tumor_CID4515$oxstress, 0.75)
-oxstress_GV_tumor_CID4515$GCLCVIM_high <- oxstress_GV_tumor_CID4515$signature_GCLCVIMTUMOR > quantile(oxstress_GV_tumor_CID4515$signature_GCLCVIMTUMOR, 0.75)
-table(oxstress_GV_tumor_CID4515$oxstress_high, oxstress_GV_tumor_CID4515$GCLCVIM_high)
-
 # hexagonal binning plot
 ggplot(oxstress_GV_tumor_CID4515, aes(x = oxstress, y = signature_GCLCVIMTUMOR)) +
   geom_hex(bins = 60) +
@@ -339,6 +357,64 @@ ggplot(oxstress_GV_tumor_CID4515, aes(x = oxstress, y = signature_GCLCVIMTUMOR))
   labs(title = "CID4515: OxStress vs GCLCVIM",
        x = "OxStress score", y = "GCLCVIM score") +
   theme_minimal()
+
+
+### ---- CID4495 ----
+
+oxstress_GV_tumor_df <- subset(oxstress_GV_df, subset = celltype_major == "Cancer Epithelial")
+oxstress_GV_tumor_CID4495 <- subset(oxstress_GV_tumor_df, subset = Patient == "CID4495")
+
+# select top 25% as high
+# chi-squared test
+oxstress_GV_tumor_CID4495$oxstress_high <- oxstress_GV_tumor_CID4495$oxstress > quantile(oxstress_GV_tumor_df$oxstress, 0.75)
+oxstress_GV_tumor_CID4495$GCLCVIM_high <- oxstress_GV_tumor_CID4495$signature_GCLCVIMTUMOR > quantile(oxstress_GV_tumor_df$signature_GCLCVIMTUMOR, 0.75)
+
+ox_group <- factor(ifelse(oxstress_GV_tumor_CID4495$oxstress_high, "High", "Low"), levels = c("Low", "High"))
+gclc_group <- factor(ifelse(oxstress_GV_tumor_CID4495$GCLCVIM_high, "High", "Low"), levels = c("Low", "High"))
+table_2x2_named <- table(OxStress = ox_group, GCLCVIM = gclc_group)
+chisq_result <- chisq.test(table_2x2_named)
+mosaicplot(table_2x2_named, main="OxStress vs GCLCVIM (CID4495)", shade=TRUE)
+
+# spearman correlation
+cor.test(oxstress_GV_tumor_CID4495$oxstress, oxstress_GV_tumor_CID4495$signature_GCLCVIMTUMOR, method = "spearman")
+
+# hexagonal binning plot
+ggplot(oxstress_GV_tumor_CID4495, aes(x = oxstress, y = signature_GCLCVIMTUMOR)) +
+  geom_hex(bins = 60) +
+  scale_fill_viridis_c() +
+  labs(title = "CID4495: OxStress vs GCLCVIM",
+       x = "OxStress score", y = "GCLCVIM score") +
+  theme_minimal()
+
+
+### ---- CID44971 ----
+
+oxstress_GV_tumor_df <- subset(oxstress_GV_df, subset = celltype_major == "Cancer Epithelial")
+oxstress_GV_tumor_CID44971 <- subset(oxstress_GV_tumor_df, subset = Patient == "CID44971")
+
+# select top 25% as high
+# chi-squared test
+oxstress_GV_tumor_CID44971$oxstress_high <- oxstress_GV_tumor_CID44971$oxstress > quantile(oxstress_GV_tumor_df$oxstress, 0.75)
+oxstress_GV_tumor_CID44971$GCLCVIM_high <- oxstress_GV_tumor_CID44971$signature_GCLCVIMTUMOR > quantile(oxstress_GV_tumor_df$signature_GCLCVIMTUMOR, 0.75)
+
+ox_group <- factor(ifelse(oxstress_GV_tumor_CID44971$oxstress_high, "High", "Low"), levels = c("Low", "High"))
+gclc_group <- factor(ifelse(oxstress_GV_tumor_CID44971$GCLCVIM_high, "High", "Low"), levels = c("Low", "High"))
+table_2x2_named <- table(OxStress = ox_group, GCLCVIM = gclc_group)
+chisq_result <- chisq.test(table_2x2_named)
+mosaicplot(table_2x2_named, main="OxStress vs GCLCVIM (CID44971)", shade=TRUE)
+
+# spearman correlation
+cor.test(oxstress_GV_tumor_CID44971$oxstress, oxstress_GV_tumor_CID44971$signature_GCLCVIMTUMOR, method = "spearman")
+
+# hexagonal binning plot
+ggplot(oxstress_GV_tumor_CID44971, aes(x = oxstress, y = signature_GCLCVIMTUMOR)) +
+  geom_hex(bins = 60) +
+  scale_fill_viridis_c() +
+  labs(title = "CID44971: OxStress vs GCLCVIM",
+       x = "OxStress score", y = "GCLCVIM score") +
+  theme_minimal()
+
+
 
 ### ---- Other patients ----
 
@@ -350,8 +426,8 @@ oxstress_GV_tumor_other <- subset(oxstress_GV_tumor_df, subset = Patient != "CID
 cor.test(oxstress_GV_tumor_other$oxstress, oxstress_GV_tumor_other$signature_GCLCVIMTUMOR, method = "spearman")
 
 # select top 25% as high
-oxstress_GV_tumor_other$oxstress_high <- oxstress_GV_tumor_other$oxstress > quantile(oxstress_GV_tumor_other$oxstress, 0.75)
-oxstress_GV_tumor_other$GCLCVIM_high <- oxstress_GV_tumor_other$signature_GCLCVIMTUMOR > quantile(oxstress_GV_tumor_other$signature_GCLCVIMTUMOR, 0.75)
+oxstress_GV_tumor_other$oxstress_high <- oxstress_GV_tumor_other$oxstress > quantile(oxstress_GV_tumor_df$oxstress, 0.75)
+oxstress_GV_tumor_other$GCLCVIM_high <- oxstress_GV_tumor_other$signature_GCLCVIMTUMOR > quantile(oxstress_GV_tumor_df$signature_GCLCVIMTUMOR, 0.75)
 table(oxstress_GV_tumor_other$oxstress_high, oxstress_GV_tumor_other$GCLCVIM_high)
 
 # hexagonal binning plot
@@ -378,3 +454,5 @@ ggplot(oxstress_GV_tumor_CID4515, aes(x = oxstress, y = signature_GCLCVIMTUMOR))
   labs(title = "CID44991: OxStress vs GCLCVIM",
        x = "OxStress score", y = "GCLCVIM score") +
   theme_minimal()
+
+

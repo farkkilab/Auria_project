@@ -27,16 +27,12 @@ class(rds_data)
 
 rds_data@reductions <- list()
 
-# 把 meta.data 中的 factor 类型转换成字符
 rds_data@meta.data[] <- lapply(rds_data@meta.data, function(x) {
   if (is.factor(x)) as.character(x) else x
 })
 
 SaveH5Seurat(rds_data, filename = "TNBC180225.h5Seurat", overwrite = TRUE)
 Convert("TNBC180225.h5Seurat", dest = "h5ad", overwrite = TRUE)
-
-
-#----------------------------------------------------------------------------------
 
 # get the count dataframe
 write.csv(as.matrix(rds_data@assays$RNA$counts), file = "/Users/wenqchen/Desktop/Projects/Auria/Data/scRNA/TNBC_counts.csv")
