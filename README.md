@@ -1,7 +1,36 @@
 # Integrative single-cell and spatial mapping of oxidative stress response uncovers GCLC+ mesenchymal tumor cell state linked with favorable outcomes in triple negative breast cancer
-  
 
 ---
+
+## TABLE OF CONTENTS <br>
+
+1. GENERAL INFORMATION
+2. DATA PROCESSING
+3. FIGURE-TO-CODE MAPPING <br>
+---
+## :book: General Information
+
+### Integrative single-cell and spatial mapping of oxidative stress response uncovers GCLC+ mesenchymal tumor cell state linked with favorable outcomes in triple negative breast cancer <br><br>
+**Authors:**
+
+Nomeda Girnius1,2,3*, Tuulia Vallius2,3,4*, Wenqing Chen5, Inga-Maria Launonen5, Sara Palomino5,6, Jia-Ren Lin2,3, Caitlin E. Mills3, Silja Kauppila5, Pauliina Kronqvist7, Antti Ellonen8, Merja Perala9, Eloise Withnell, Yu-An Chen2, Maria Secrier, Sandro Santagata2,3,4,10, Peter K. Sorger2,3,4, Anniina Farkkila#
+
+**Affiliations**
+1.	Department of Cell Biology, Ludwig Center at Harvard, Harvard Medical School, Boston, MA, USA;
+2.	Ludwig Center at Harvard;
+3.	Laboratory of Systems Pharmacology, Harvard Program in Therapeutic Science, Harvard Medical School, 200 Longwood Avenue, Boston, MA 02115;
+4.	Department of Systems Biology, Harvard Medical School, 200 Longwood Avenue, Boston, MA 02115
+5.	Research Program in Systems Oncology, University of Helsinki, Helsinki, Finland
+6.	Institute for Molecular Medicine Finland, FIMM, University of Helsinki, Helsinki, Finland
+7.	Institute of Biomedicine, University of Turku, and Department of Pathology, Turku University Hospital, Turku, Finland
+8.	Department of Oncology, Turku University Central Hospital, Turku, Finland
+9.	Auria Biobank, University of Turku and Turku University
+10.	Department of Pathology, Brigham and Women’s Hospital, Harvard Medical School, Boston, Massachusetts
+    
+*These authors contributed equally
+
+#Corresponding author
+<br><br><br>
 
 ## 🧹 Data Processing
 
@@ -26,7 +55,7 @@
 | `Codes/spatial_transcriptomics/TNBCs_spatial_preparation.ipynb`   | Deconvolution exploration and preparation for hotpsot analysis |
 | `Codes/spatial_transcriptomics/Hotspot_calculation_and_slides_plots.ipynb`   | Hotspot calculation |
 
-                  
+<br><br>
 ## 📊 Figure-to-Code Mapping
 
 ### Main Figures
