@@ -1,5 +1,5 @@
 # Created: 02/07/25
-# Last modification: 02/07/25
+# Last modification: 11/02/26
 # Author(s): Wenqing Chen
 
 library(Seurat)
@@ -13,7 +13,7 @@ library(UCell)
 library(BuenColors)
 
 
-# ---- Figure 3G ----
+# ---- Figure 4g ----
 # UMAP of GCLC_VIM
 
 gclcvim_tumor <- readRDS("/Users/wenqchen/Desktop/Projects/Auria/Data/scRNA/GCLCVIM_TUMOR.rds")
@@ -46,7 +46,7 @@ ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Oxstress/GCLC_VIM_TNB
 
 
 
-# ---- Figure 1D ----
+# ---- Figure 1e ----
 # one UMAP to show 5 clusters
 TNBC <- readRDS("/Users/wenqchen/Desktop/Projects/Auria/Data/scRNA/TNBC180225.rds")
 
@@ -72,7 +72,9 @@ integrated <- ScaleData(integrated)
 integrated <- RunPCA(integrated)
 integrated <- RunUMAP(integrated, dims = 1:10)
 integrated <- FindNeighbors(integrated, dims = 1:10)
-integrated <- FindClusters(integrated, resolution = 0.2)
+integrated <- FindClusters(integrated, resolution = 0.2) #6 clusters
+
+#integrated <- FindClusters(integrated, resolution = 0.1) 5 clustera
 
 DimPlot(integrated, reduction = "umap", group.by = "Patient")
 
@@ -100,7 +102,7 @@ umap_data$Oxstress_Signature <- integrated@meta.data$oxstress
 
 
 # UMAP Plot, faceted by Patient
-# ---- Figure 1D ----
+# ---- Figure 1e ----
 # 7 UMAP (different patients) to show Oxstress_Signature
 ggplot(umap_data, aes(x = umap_1, y = umap_2, color = Oxstress_Signature)) +
   geom_point(size = 0.5, alpha = 0.7) +  # Adjust point size and transparency
@@ -112,7 +114,7 @@ ggplot(umap_data, aes(x = umap_1, y = umap_2, color = Oxstress_Signature)) +
 ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Oxstress/oxstress_TNBC_umap_patients.pdf",
        width =10, height = 7, dpi = 300)
 
-# ---- Figure 3I ----
+# ---- Figure 4i ----
 # 7 UMAP (different patients) to show GCLCVIM_Signature
 ggplot(umap_data, aes(x = umap_1, y = umap_2, color = GCLCVIM_Signature)) +
   geom_point(size = 0.5, alpha = 0.7) +  # Adjust point size and transparency
