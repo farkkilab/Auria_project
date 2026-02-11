@@ -1,6 +1,6 @@
 
 # Created: 02/07/25
-# Last modification: 02/07/25
+# Last modification: 11/02/26
 # Author(s): Wenqing Chen
 
 # ---- Load libraries ----
@@ -20,7 +20,7 @@ patient_colors <- c(
   # ER+
   "CID4461" = "#f7dfb8", "CID4463" = "#ffda5f", "CID4471" = "#ffba51",
   "CID4530N" = "#fd8302", "CID4535" = "#a26605", "CID3941" = "#f2a4a4",
-  "CID3948" = "#ff8989", "CID4067" = "#EF3B2C", "CID4290A" = "#A50F15"
+  "CID3948" = "#ff8989", "CID4067" = "#EF3B2C", "CID4290A" = "#A50F15",
   
   # TNBC
   "CID4495" = "#d4ebd1", "CID44971" = "#A1D99B","CID44991" = "#41AB5D",
@@ -46,7 +46,7 @@ table(scSeurat@meta.data$Patient, scSeurat@meta.data$subtype)
 table(scSeurat@meta.data$Patient, scSeurat@meta.data$celltype_major)
 
 # Calculate the mean oxstress
-df_oxstress <- scSeurat@meta.data %>% select(Patient, celltype_major, subtype, oxstress)
+df_oxstress <- scSeurat@meta.data %>% dplyr::select(Patient, celltype_major, subtype, oxstress)
 
 df_oxstress <- df_oxstress %>%
   group_by(Patient) %>%
@@ -73,7 +73,7 @@ scSeurat_TNBC <- subset(scSeurat, subset = subtype == "TNBC" )
 table(scSeurat_TNBC@meta.data$Patient, scSeurat_TNBC@meta.data$subtype)
 
 ## ---- Plots ----
-### ---- Figure 1B ----
+### ---- Figure 1c ----
 # Box plot per patient
 # ER+ and TNBC
 subtype_ordered_patients <- summary_df_tumor |>
@@ -103,7 +103,7 @@ ggplot(summary_df_tumor, aes(x = subtype, y = mean_oxstress_patient_celltype)) +
   )
 ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Oxstress/oxstress_per_patient_tumor.pdf", width = 4, height = 6, dpi = 300)
 
-### ---- SFigure 1B ----
+### ---- SFigure 1a ----
 # per celltype in TNBC
 subtype_ordered_patients <- summary_df_TNBC |>
   dplyr::distinct(Patient, subtype) |>
@@ -156,7 +156,7 @@ ggplot(summary_df_TNBC, aes(x = celltype_major, y = mean_oxstress_patient_cellty
   )
 ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Oxstress/oxstress_per_patient_celltype_TNBC_sig.pdf", width = 7, height = 7, dpi = 300)
 
-### ---- Figure 1C ----
+### ---- Figure 1d ----
 # violin plot of oxstress
 # per cell in TNBC
 scSeurat_TNBC_tumor <- subset(scSeurat_TNBC, (celltype_major == "Cancer Epithelial"))
@@ -170,6 +170,8 @@ ggplot(oxstress_df, aes(x = Patient, y = OxStress, fill = Patient)) +
   #geom_boxplot(width = 0.3, outlier.shape = NA, alpha = 0.3, color = "black") +
   geom_jitter(aes(color = Patient),
               width = 0.35, size = 0.05, alpha = 0.3, show.legend = FALSE) + 
+  scale_color_manual(values = patient_colors) +
+  scale_fill_manual(values = patient_colors) +
   theme_classic() +
   labs(title = "Oxidative Stress (Tumor)", x = "Patients", y = "Expression") + 
   theme(plot.title = element_text(hjust = 0.5))
@@ -184,7 +186,7 @@ TNBC <- subset(TNBC, !(Patient %in% c("CID4465")))
 table(TNBC@meta.data$Patient, TNBC@meta.data$celltype_major)
 
 ## ---- Plots ----
-### ---- Figure 3H ----
+### ---- Figure 4h ----
 # violin plot of GCLC_VIM 
 # per cell in TNBC
 TNBC_tumor <- subset(TNBC, (celltype_major == "Cancer Epithelial"))
@@ -210,21 +212,35 @@ ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Oxstress/GCLC_VIM_Tum
 
 ## ---- correlation ----
 
-### ---- SFigure 3E ----
+### ---- SFigure 4a ----
 # only tumor cells
-
+oxstress_GV_df <- TNBC@meta.data[, c("Patient","celltype_major", "oxstress", "signature_GCLCVIM", "signature_GCLCVIMTUMOR")]
 oxstress_GV_tumor_df <- subset(oxstress_GV_df, subset = celltype_major == "Cancer Epithelial")
 
 # hexagonal binning plot
+
+test <- cor.test(oxstress_GV_tumor_df$oxstress, oxstress_GV_tumor_df$signature_GCLCVIMTUMOR, method = "spearman")
+
+rho <- round(test$estimate, 3)
+pval_label <- if (test$p.value < 2.2e-16) {
+  "p-value < 2.2e-16"} else {
+    paste0("p = ", signif(test$p.value, 3))
+  }
+
 ggplot(oxstress_GV_tumor_df, aes(x = oxstress, y = signature_GCLCVIMTUMOR)) +
   geom_hex(bins = 60) +
   scale_fill_viridis_c() +
   labs(
-    title = "All tumor cells of TNBC: OxStress vs GCLCVIM",
-    x = "OxStress score", y = "GCLCVIM score"
+    title = "TNBC tumor cells: AntiOx vs GCLC-VIM",
+    x = "AntiOx score",
+    y = "GCLC-VIM score"
   ) +
   theme_minimal() +
-  annotate("text", x = Inf, y = Inf, label = "p-value < 2.2e-16", hjust = 1.1, vjust = 1.2, size = 5)
-ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Oxstress/GCLCVIM_Oxstress_TNBC_tumor.pdf",
+  annotate(
+    "text", 
+    x = Inf, y = Inf,
+    label = paste0("Spearman rho = ", rho, "\nP = ", pval_label),
+    hjust = 1.1, vjust = 1.2, size = 5
+  )
+ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Oxstress/GCLCVIM_Oxstress_TNBC_tumor_2.pdf",
        width =10, height = 7, dpi = 300)
-

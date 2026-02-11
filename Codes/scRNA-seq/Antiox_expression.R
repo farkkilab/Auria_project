@@ -11,18 +11,35 @@ library(tibble)
 library(readr)
 library(Seurat)
 library(MoMAColors)
+library(ggpubr)
+library(patchwork)
 
-# ---- SFigure 1D ----
+# ---- SFigure 2c ----
 rds_data <- readRDS("/Users/wenqchen/Desktop/Projects/Auria/Data/scRNA/TNBC180225.rds")
 
 rds_data$oxstress_group <- ifelse(rds_data@meta.data$oxstress > 0.15, "High", "Low")
 
 cancer_rds_data <- subset(rds_data, celltype_major == "Cancer Epithelial")
 
-p1 <- VlnPlot(cancer_rds_data, features = c("GCLC", "NQO1", "TXNRD1"),
-        group.by = "oxstress_group",
-        pt.size = 0,  
-        cols = c("steelblue", "firebrick"))
-ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/ox_markers_violin_tumor.pdf", plot = p1, width = 6, height = 5, dpi = 300)
+
+genes <- c("GCLC", "NQO1", "TXNRD1")
+
+plots <- lapply(genes, function(g){
+  VlnPlot(
+    cancer_rds_data,
+    features = g,
+    group.by = "oxstress_group",
+    pt.size = 0,
+    cols = c("steelblue", "firebrick")
+  ) + 
+    stat_compare_means(method = "wilcox.test", label = "p.signif") + # p.format
+    theme(legend.position = "none") +
+    ggtitle(g)
+})
+
+p_all <- wrap_plots(plots, ncol = 3)
+
+
+ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/ox_markers_violin_tumor_sig.pdf", plot = p_all, width = 6, height = 5, dpi = 300)
 
 

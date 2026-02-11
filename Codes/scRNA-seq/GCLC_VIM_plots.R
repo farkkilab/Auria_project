@@ -1,6 +1,6 @@
 
 # Created: 14/05/25
-# Last modification: 06/06/25
+# Last modification: 11/02/26
 # Author(s): Wenqing Chen
 
 # ---- Load libraries ----
@@ -38,7 +38,7 @@ expr_df <- expr_df %>%
   )
 
 
-# ---- Figure 2I ----
+# ---- Figure 2i ----
 # GCLC expression in VIM group
 GCLC_expr_df <- expr_df[c("GCLC", "VIM_Group")]
 
@@ -98,7 +98,7 @@ ggsave("/Users/wenqchen/Desktop/Projects/Auria/Plots/scRNA/Oxstress/GCLC_in_VIMG
        plot = combine_p,
        width = 4, height = 5, dpi = 300)
 
-# ---- Figure 2J ----
+# ---- Figure 2j ----
 # VIM expression in GCLC group
 VIM_expr_df <- expr_df[c("VIM", "GCLC_Group")]
 VIM_expr_long <- VIM_expr_df %>%
