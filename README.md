@@ -63,37 +63,37 @@ Nomeda Girnius1,2,3*, Tuulia Vallius2,3,4*, Wenqing Chen5, Inga-Maria Launonen5,
 | Figure      | Script                                                |
 |-------------|-------------------------------------------------------|
 | Figure 1A   | `Codes/scRNA-seq/Oxstress_plots.R` & `Codes/spatial_transcriptomics/Hotspot_calculation_and_slides_plots.ipynb` |
-| Figure 1B   | `Codes/scRNA-seq/Oxstress_plots.R`                    |
-| Figure 1C   | `Codes/scRNA-seq/Oxstress_plots.R`                    |
-| Figure 1D   | `Codes/scRNA-seq/UMAP.R`                              |
-| Figure 1E   | `Codes/scRNA-seq/GSEA_Volcano_plots.R`                |
+| Figure 1c   | `Codes/scRNA-seq/Oxstress_plots.R`                    |
+| Figure 1d   | `Codes/scRNA-seq/Oxstress_plots.R`                    |
+| Figure 1e   | `Codes/scRNA-seq/UMAP.R`                              |
+| Figure 1f   | `Codes/scRNA-seq/GSEA_Volcano_plots.R`                |
 | Figure 1F   | `Codes/spatial_transcriptomics/Hotspot_calculation_and_slides_plots.ipynb`   |
 | Figure 1G   | `Codes/spatial_transcriptomics/Spatial_figures.R`  |
 | Figure 1H   | `Codes/spatial_transcriptomics/Spatial_figures.R`  |
 | Figure 1I   | `Codes/spatial_transcriptomics/Spatial_figures.R`  |
 | Figure 1J   | `Codes/spatial_transcriptomics/Spatial_figures.R`  |
-| Figure 2E   | `Codes/t-CycIF/Correlation_plot.R`                    |
-| Figure 2G   | `Codes/t-CycIF/GCLC_VIM_plots.ipynb`                  |
-| Figure 2H   | `Codes/t-CycIF/GCLC_VIM_plots.ipynb`                  | 
-| Figure 2I   | `Codes/scRNA-seq/GCLC_VIM_plots.R`                    | 
-| Figure 2J   | `Codes/scRNA-seq/GCLC_VIM_plots.R`                    |
-| Figure 3A   | `Codes/scRNA-seq/GSEA_Volcano_plots.R`                | 
-| Figure 3B   | `Codes/scRNA-seq/GSEA_Volcano_plots.R`                | 
-| Figure 3C   | `Codes/scRNA-seq/Proliferation_anastasis_score.ipynb` | 
-| Figure 3D   | `Codes/scRNA-seq/Proliferation_anastasis_score.ipynb` | 
-| Figure 3E   | `Codes/scRNA-seq/Proliferation_anastasis_score.ipynb` | 
-| Figure 3F   | `Codes/scRNA-seq/Proliferation_anastasis_score.ipynb` | 
-| Figure 3G   | `Codes/scRNA-seq/UMAP.R`                              | 
-| Figure 3H   | `Codes/scRNA-seq/Oxstress_plots.R`                    |
-| Figure 3I   | `Codes/scRNA-seq/UMAP.R`                              |
+| Figure 2d   | `Codes/t-CycIF/Correlation_plot.R`                    |
+| Figure 2g   | `Codes/t-CycIF/GCLC_VIM_plots.ipynb`                  |
+| Figure 2h   | `Codes/t-CycIF/GCLC_VIM_plots.ipynb`                  | 
+| Figure 2i   | `Codes/scRNA-seq/GCLC_VIM_plots.R`                    | 
+| Figure 2j   | `Codes/scRNA-seq/GCLC_VIM_plots.R`                    |
+| Figure 4a   | `Codes/scRNA-seq/GSEA_Volcano_plots.R`                | 
+| Figure 4b   | `Codes/scRNA-seq/GSEA_Volcano_plots.R`                | 
+| Figure 4c   | `Codes/scRNA-seq/Proliferation_anastasis_score.ipynb` | 
+| Figure 4d   | `Codes/scRNA-seq/Proliferation_anastasis_score.ipynb` | 
+| Figure 4e   | `Codes/scRNA-seq/Proliferation_anastasis_score.ipynb` | 
+| Figure 4f   | `Codes/scRNA-seq/Proliferation_anastasis_score.ipynb` | 
+| Figure 4g   | `Codes/scRNA-seq/UMAP.R`                              | 
+| Figure 4h   | `Codes/scRNA-seq/Oxstress_plots.R`                    |
+| Figure 4i   | `Codes/scRNA-seq/UMAP.R`                              |
 | Figure 3J   | `Codes/spatial_transcriptomics/Spatial_figures.R`     |
-| Figure 4A   | `Codes/t-CycIF/Spatial_plots.ipynb`                   | 
-| Figure 4B   | `Codes/t-CycIF/Spatial_plots.ipynb`                   |
-| Figure 4C   | `Codes/t-CycIF/Spatial_plots.ipynb`                   |
-| Figure 4D   | `Codes/t-CycIF/GCLC_VIM_plots.ipynb`                  | 
-| Figure 4F   | `Codes/t-CycIF/Scimap_pScore.ipynb`                   |
-| Figure 5A   | `Codes/t-CycIF/Survival.R`                            | 
-| Figure 5B   | `Codes/t-CycIF/Survival.R`                            | 
+| Figure 3a   | `Codes/t-CycIF/Spatial_plots.ipynb`                   | 
+| Figure 3b   | `Codes/t-CycIF/Spatial_plots.ipynb`                   |
+| Figure 3d   | `Codes/t-CycIF/Spatial_plots.ipynb`                   |
+| Figure 3e   | `Codes/t-CycIF/GCLC_VIM_plots.ipynb`                  | 
+| Figure 3g   | `Codes/t-CycIF/Scimap_pScore.ipynb`                   |
+| Figure 5d   | `Codes/t-CycIF/Survival.R`                            | 
+| Figure 5e   | `Codes/t-CycIF/Survival.R`                            | 
 
 
 
@@ -101,16 +101,15 @@ Nomeda Girnius1,2,3*, Tuulia Vallius2,3,4*, Wenqing Chen5, Inga-Maria Launonen5,
 
 | Figure      | Script                                |
 |-------------|---------------------------------------|
-| SFigure 1A  | `Codes/scRNA-seq/Antiox_expression.R` |
-| SFigure 1B  | `Codes/scRNA-seq/Oxstress_plots.R`    |
-| SFigure 1C  | `Codes/scRNA-seq/Antiox_expression.R` |
+| SFigure 1a  | `Codes/scRNA-seq/Oxstress_plots.R`    |
+| SFigure 2c  | `Codes/scRNA-seq/Antiox_expression.R` |
 | SFigure 1E  | `Codes/spatial_transcriptomics/Spatial_figures.R`|
 | SFigure 1F  | `Codes/spatial_transcriptomics/Spatial_figures.R`|
-| SFigure 2B  | `Codes/t-CycIF/Spatial_plots.ipynb`   |
-| SFigure 3E  | `Codes/scRNA-seq/Oxstress_plots.R`    |
+| SFigure 2d  | `Codes/t-CycIF/Spatial_plots.ipynb`   |
+| SFigure 4a  | `Codes/scRNA-seq/Oxstress_plots.R`    |
 | SFigure 3F  | `Codes/spatial_transcriptomics/Hotspot_calculation_and_slides_plots.ipynb`   |  
 | SFigure 3J  | `Codes/spatial_transcriptomics/Spatial_figures.R`  |
-| SFigure 4B  | `Codes/t-CycIF/Moran_violin.ipynb`    | 
-| SFigure 4C  | `Codes/t-CycIF/Spatial_plots.ipynb`   | 
+| SFigure 3b  | `Codes/t-CycIF/Moran_violin.ipynb`    | 
+| SFigure 3d  | `Codes/t-CycIF/Spatial_plots.ipynb`   | 
 
 ---
