@@ -18,7 +18,7 @@ clinical_data <- read.csv('/Users/wenqchen/Desktop/Projects/Auria/Data/t-CycIF/c
 
 
 # ---- Cox Harzard Model -----------------------------------------------------------
-## ---- Figure 5A & 5B ----
+## ---- Figure 5d & 5e ----
 ### ---- Functional marker ----
 
 data$celltype_EMT <- data$celltype
