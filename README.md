@@ -71,6 +71,8 @@ Nomeda Girnius1,2,3*, Tuulia Vallius2,3,4*, Wenqing Chen5, Inga-Maria Launonen5,
 | Figure 1h     | `Codes/spatial_transcriptomics/Spatial_figures.R`  |
 | Figure 1i     | `Codes/spatial_transcriptomics/Spatial_figures.R`  |
 | Figure 1j     | `Codes/spatial_transcriptomics/Spatial_figures.R`  |
+| Figure 2b     | `Codes/t-CycIF/Annotation_heatmap.R`                  |
+| Figure 2c     | `Codes/t-CycIF/Celltype_heatmap.R`                    |
 | Figure 2e     | `Codes/t-CycIF/Correlation_plot.R`                    |
 | Figure 2h     | `Codes/t-CycIF/GCLC_VIM_plots.ipynb`                  |
 | Figure 2i     | `Codes/t-CycIF/GCLC_VIM_plots.ipynb`                  | 
