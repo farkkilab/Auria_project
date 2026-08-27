@@ -71,11 +71,11 @@ Nomeda Girnius1,2,3*, Tuulia Vallius2,3,4*, Wenqing Chen5, Inga-Maria Launonen5,
 | Figure 1h     | `Codes/spatial_transcriptomics/Spatial_figures.R`  |
 | Figure 1i     | `Codes/spatial_transcriptomics/Spatial_figures.R`  |
 | Figure 1j     | `Codes/spatial_transcriptomics/Spatial_figures.R`  |
-| Figure 2d     | `Codes/t-CycIF/Correlation_plot.R`                    |
-| Figure 2g     | `Codes/t-CycIF/GCLC_VIM_plots.ipynb`                  |
-| Figure 2h     | `Codes/t-CycIF/GCLC_VIM_plots.ipynb`                  | 
-| Figure 2i     | `Codes/scRNA-seq/GCLC_VIM_plots.R`                    | 
-| Figure 2j     | `Codes/scRNA-seq/GCLC_VIM_plots.R`                    |
+| Figure 2e     | `Codes/t-CycIF/Correlation_plot.R`                    |
+| Figure 2h     | `Codes/t-CycIF/GCLC_VIM_plots.ipynb`                  |
+| Figure 2i     | `Codes/t-CycIF/GCLC_VIM_plots.ipynb`                  | 
+| Figure 2j     | `Codes/scRNA-seq/GCLC_VIM_plots.R`                    | 
+| Figure 2k     | `Codes/scRNA-seq/GCLC_VIM_plots.R`                    |
 | Figure 3a     | `Codes/t-CycIF/Spatial_plots.ipynb`                   | 
 | Figure 3b     | `Codes/t-CycIF/Spatial_plots.ipynb`                   |
 | Figure 3d     | `Codes/t-CycIF/Spatial_plots.ipynb`                   |
