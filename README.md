@@ -10,7 +10,7 @@
 ---
 ## :book: General Information
 
-### Integrative single-cell and spatial mapping of oxidative stress response uncovers GCLC+ mesenchymal tumor cell state linked with favorable outcomes in triple negative breast cancer <br><br>
+### Single-cell and spatial mapping reveals GCLC+ mesenchymal tumor cells linked with favorable outcomes in TNBC <br><br>
 **Authors:**
 
 Nomeda Girnius1,2,3*, Tuulia Vallius2,3,4*, Wenqing Chen5, Inga-Maria Launonen5, Sara Palomino5,6, Jia-Ren Lin2,3, Caitlin E. Mills3, Silja Kauppila5, Pauliina Kronqvist7, Antti Ellonen8, Merja Perala9, Eloise Withnell, Yu-An Chen2, Maria Secrier, Sandro Santagata2,3,4,10, Peter K. Sorger2,3,4, Anniina Farkkila#
