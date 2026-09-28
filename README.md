@@ -32,6 +32,8 @@ Nomeda Girnius1,2,3*, Tuulia Vallius2,3,4*, Wenqing Chen5, Inga-Maria Launonen5,
 #Corresponding author
 <br><br><br>
 
+All data used in this study are deposited in Zenodo: https://doi.org/10.5281/zenodo.22224978
+
 ## 🧹 Data Processing
 
 ### 🔹 t-CycIF
